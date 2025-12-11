@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<title>永不失联导航页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        :root {
+            --bg-color: #0e1120;
+            --card-bg: rgba(15, 23, 42, 0.92);
+            --primary: #38bdf8;
+            --primary-soft: rgba(56, 189, 248, 0.15);
+            --text-main: #e5e7eb;
+            --text-sub: #9ca3af;
+            --border-soft: rgba(148, 163, 184, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+            sans-serif;
+            background: radial-gradient(circle at top, #1f2937 0, #0e1120 45%, #020617 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .wrapper {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--border-soft);
+            box-shadow: 0 24px 80px rgba(15, 23, 42, 0.8);
+            padding: 32px 28px 28px;
+            backdrop-filter: blur(18px);
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                padding: 40px 40px 32px;
+            }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 20% 20%, #5eead4, #0ea5e9 35%, #4f46e5 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #0b1120;
+            box-shadow: 0 12px 35px rgba(56, 189, 248, 0.5);
+            font-size: 20px;
+        }
+
+        .brand-text-main {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        .brand-text-sub {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        .headline {
+            margin-bottom: 20px;
+        }
+
+        .headline-title {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .headline-sub {
+            font-size: 13px;
+            color: var(--text-sub);
+            max-width: 520px;
+            line-height: 1.7;
+        }
+
+        @media (min-width: 768px) {
+            .headline-title {
+                font-size: 30px;
+            }
+            .headline-sub {
+                font-size: 14px;
+            }
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .pill {
+            font-size: 12px;
+            color: var(--primary);
+            background: var(--primary-soft);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 999px;
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #22c55e;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.35);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .block {
+            border-radius: 18px;
+            border: 1px solid var(--border-soft);
+            padding: 16px 16px 14px;
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 55%);
+        }
+
+        .block-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .block-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #e5e7eb;
+        }
+
+        .block-tag {
+            font-size: 11px;
+            color: var(--text-sub);
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 9px 10px;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.9);
+            transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease,
+            background 0.18s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .link-item:hover {
+            border-color: rgba(56, 189, 248, 0.8);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.8);
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), rgba(15, 23, 42, 0.95));
+        }
+
+        .link-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: flex-start;
+        }
+
+        .link-main {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .link-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .link-url {
+            font-size: 12px;
+            color: var(--text-sub);
+            word-break: break-all;
+        }
+
+        .link-badge {
+            margin-left: auto;
+            font-size: 11px;
+            color: #bbf7d0;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(74, 222, 128, 0.7);
+            background: radial-gradient(circle at top, rgba(22, 163, 74, 0.45), rgba(15, 23, 42, 0.9));
+            white-space: nowrap;
+        }
+
+        .hint-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .hint-strong {
+            color: var(--primary);
+        }
+
+        .hint-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            border-radius: 999px;
+            padding: 4px 10px;
+            border: 1px dashed rgba(148, 163, 184, 0.6);
+            background: rgba(15, 23, 42, 0.9);
+            color: #e5e7eb;
+            font-size: 11px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(56, 189, 248, 0.9);
+            background: rgba(15, 23, 42, 0.98);
+            color: var(--primary);
+        }
+
+        .divider {
+            height: 1px;
+            margin: 18px 0 12px;
+            background: linear-gradient(
+                    to right,
+                    transparent,
+                    rgba(148, 163, 184, 0.35),
+                    transparent
+            );
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-sub);
+            gap: 6px;
+        }
+
+        .footer-strong {
+            color: #e5e7eb;
+            font-weight: 500;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.8);
+            margin: 0 6px;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            background: #888; /* 默认灰色 */
+        }
+	</style>
+</head>
+<body>
+<div class="wrapper">
+	<main class="card">
+		<header class="brand">
+			<div class="brand-logo">
+				<img style="width: 50px" src="favicon.ico" />
+			</div>
+			<div>
+				<div class="brand-text-main">HSHMENG · 永不失联导航</div>
+				<div class="brand-text-sub">官方唯一导航页 · 请务必收藏本页</div>
+			</div>
+		</header>
+
+		<section class="headline">
+			<div class="pill-row">
+				<div class="pill">
+					<span class="pill-dot"></span>
+					实时更新 · 永不失联
+				</div>
+				<div class="pill">建议立即收藏或设为首页</div>
+			</div>
+			<h1 class="headline-title">找不到主站时，就来这里</h1>
+			<p class="headline-sub">
+				当你发现常用域名无法访问、被屏蔽或失效时，请第一时间打开此导航页。
+				这里会同步更新最新可用入口，确保你始终可以找到正确的去处。
+			</p>
+		</section>
+
+		<section class="grid">
+			<!-- 左侧：主域名与备用入口 -->
+			<section class="block">
+				<div class="block-header">
+					<h2 class="block-title">官方入口合集</h2>
+					<span class="block-tag">仅此一个导航页</span>
+				</div>
+
+				<div class="link-list">
+					<a class="link-item" href="https://wiki.hshmeng.dpdns.org" target="_blank" rel="noopener noreferrer">
+						<div class="link-row">
+							<span class="status-dot" id="status-wiki"></span>
+							<div class="link-main">
+								<span class="link-label">主站永久域名</span>
+								<span class="link-url">https://wiki.hshmeng.dpdns.org</span>
+							</div>
+							<span class="link-badge">主站</span>
+						</div>
+					</a>
+
+					<a class="link-item" href="https://hshmeng.qzz.io" target="_blank" rel="noopener noreferrer">
+						<div class="link-row">
+							<span class="status-dot" id="status-qzz"></span>
+							<div class="link-main">
+								<span class="link-label">主站永久域名备用入口</span>
+								<span class="link-url">https://hshmeng.qzz.io</span>
+							</div>
+							<span class="link-badge">备用</span>
+						</div>
+					</a>
+
+					<a class="link-item" href="https://hshmeng.dpdns.org/" target="_blank" rel="noopener noreferrer">
+						<div class="link-row">
+							<span class="status-dot" id="status-dpdns"></span>
+							<div class="link-main">
+								<span class="link-label">工作网站</span>
+								<span class="link-url">https://hshmeng.dpdns.org/</span>
+							</div>
+							<span class="link-badge">工作站</span>
+						</div>
+					</a>
+
+					<a class="link-item" href="https://hshmeng.github.io/VEC_PAGE/" target="_blank" rel="noopener noreferrer">
+						<div class="link-row">
+							<span class="status-dot" id="status-vec"></span>
+							<div class="link-main">
+								<span class="link-label">VEC_PAGE页面</span>
+								<span class="link-url">https://hshmeng.github.io/VEC_PAGE/</span>
+							</div>
+							<span class="link-badge">班级网站</span>
+						</div>
+					</a>
+
+					<a class="link-item" href="https://hshmeng.github.io/hshmeng-forum/" target="_blank" rel="noopener noreferrer">
+						<div class="link-row">
+							<span class="status-dot" id="status-forum"></span>
+							<div class="link-main">
+								<span class="link-label">hshmeng-forum论坛页面</span>
+								<span class="link-url">https://hshmeng.github.io/hshmeng-forum/</span>
+							</div>
+							<span class="link-badge">论坛</span>
+						</div>
+					</a>
+				</div>
+
+				<div class="hint-row">
+            <span>
+              如遇全部失效，请稍后再次访问
+            </span>
+				</div>
+			</section>
+
+			<!-- 右侧：使用说明 / 提示 -->
+			<section class="block">
+				<div class="block-header">
+					<h2 class="block-title">使用说明与防失联指南</h2>
+					<span class="block-tag">建议立即完成</span>
+				</div>
+
+				<ul class="link-list">
+					<li class="link-item" style="cursor: default;">
+						<div class="link-main">
+							<span class="link-label">1. 立即收藏本页</span>
+							<span class="link-url">
+                  电脑端按 <strong>Ctrl + D</strong>，手机端使用浏览器菜单添加到书签或主屏幕。
+                </span>
+						</div>
+					</li>
+
+					<li class="link-item" style="cursor: default;">
+						<div class="link-main">
+							<span class="link-label">2. 截图保存当前页面</span>
+							<span class="link-url">
+                  建议给本页整体截图，遇到打不开的情况时，可以通过截图上的域名手动输入找回。
+                </span>
+						</div>
+					</li>
+
+					<li class="link-item" style="cursor: default;">
+						<div class="link-main">
+							<span class="link-label">3. 认准唯一导航</span>
+							<span class="link-url">
+                  本页为官方统一发布导航，除本页面外的其他链接、二维码、短链等均有风险，请谨慎识别。
+                </span>
+						</div>
+					</li>
+
+					<li class="link-item" style="cursor: default;">
+						<div class="link-main">
+							<span class="link-label">4. 访问异常排查</span>
+							<span class="link-url">
+                  如所有入口均不可用，可尝试更换网络、切换浏览器或稍后再次访问，可能为临时网络波动。
+                </span>
+						</div>
+					</li>
+				</ul>
+
+				<div class="hint-row">
+					<span class="hint-strong">记住一句话：主站找不到，就来导航页。</span>
+					<div class="hint-actions">
+						<button class="btn-outline" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+							回到顶部
+						</button>
+					</div>
+				</div>
+			</section>
+		</section>
+
+		<div class="divider"></div>
+
+		<footer class="footer">
+			<div>
+				<span class="footer-strong">HSHMENG 永不失联导航</span>
+				<span class="dot"></span>
+				官方统一发布入口
+			</div>
+			<div>
+				建议收藏本页 &amp; 定期访问以确认最新域名
+			</div>
+		</footer>
+	</main>
+</div>
+<script>
+    async function check(url, elementId) {
+        const api = "https://html-state.hshmeng.dpdns.org/?url=" + encodeURIComponent(url);
+        const el = document.getElementById(elementId);
+
+        try {
+            const res = await fetch(api);
+            const data = await res.json();
+
+            if (data.status === 200) {
+                el.style.background = "#22c55e"; // 绿色
+            } else {
+                el.style.background = "#ef4444"; // 红色
+            }
+        } catch (e) {
+            el.style.background = "#facc15"; // 黄色（检测失败）
+        }
+    }
+
+    // 调用检测
+    check("https://wiki.hshmeng.dpdns.org", "status-wiki");
+    check("https://hshmeng.qzz.io", "status-qzz");
+    check("https://hshmeng.dpdns.org", "status-dpdns");
+    check("https://hshmeng.github.io/VEC_PAGE/", "status-vec");
+    check("https://hshmeng.github.io/hshmeng-forum/", "status-forum");
+</script>
+</body>
+</html>
