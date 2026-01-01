@@ -375,6 +375,18 @@
 				</div>
 
 				<div class="link-list">
+					<a class="link-item" href="https://hshmeng.cn" target="_blank" rel="noopener noreferrer">
+						<div class="link-row">
+							<span class="status-dot" id="status-hshmeng"></span>
+							<div class="link-main">
+								<span class="link-label">主站永久域名</span>
+								<span class="link-url">https://hshmeng.cn</span>
+							</div>
+							<span class="link-badge">主站</span>
+						</div>
+					</a>
+
+				<div class="link-list">
 					<a class="link-item" href="https://wiki.hshmeng.dpdns.org" target="_blank" rel="noopener noreferrer">
 						<div class="link-row">
 							<span class="status-dot" id="status-wiki"></span>
@@ -382,7 +394,7 @@
 								<span class="link-label">主站永久域名</span>
 								<span class="link-url">https://wiki.hshmeng.dpdns.org</span>
 							</div>
-							<span class="link-badge">主站</span>
+							<span class="link-badge">备用主站</span>
 						</div>
 					</a>
 
@@ -528,6 +540,7 @@
     }
 
     // 调用检测
+    check("https://hshmeng.cn", "status-hshmeng");
     check("https://wiki.hshmeng.dpdns.org", "status-wiki");
     check("https://hshmeng.qzz.io", "status-qzz");
     check("https://hshmeng.dpdns.org", "status-dpdns");
